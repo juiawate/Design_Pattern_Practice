@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function Singleton() {
+            var self = this;
+            if(typeof Singleton.instance === 'undefined'){
+                Object.defineProperty(Singleton,'instance', {
+                    get: function () {
+                        return self;
+                    }
+                });
+            }
+            return Singleton.instance;
+        }
+
+        var s1 = new Singleton();
+        Singleton.instance = {};
+        var s2 = new Singleton();
+
+        console.log(s1);
+        console.log(s2);
+        console.log(s1 === s2);
+    </script>
+</head>
+<body>
+
+</body>
+</html>

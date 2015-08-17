@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var cars = ['Audi','Merc','BMW'];
+
+        var Carfactory = (function () {
+
+            function CarFactory(constr) {
+                return new Carfactory.constructors[constr]();
+            }
+
+            CarFactory.constructors = {
+                'Car': function () {
+
+                },
+                'Audi': function () {
+                    this.make = 'audi';
+                },
+                'Merc': function () {
+                    this.make = 'merc';
+                },
+                'BMW': function () {
+                    this.make = 'bmw';
+                }
+            };
+
+            //console.log(CarFactory.constructors);
+
+            var Car = CarFactory.constructors['Car'];
+            Car.prototype.drive = function () {
+                console.log('vroom...');
+            };
+
+            // make all constructors inherit from Car
+            for(var prop in CarFactory.constructors){
+                if(prop !== 'Car'){
+                    CarFactory.constructors[prop].prototype = new Car();
+                    CarFactory.constructors[prop].prototype.constructor = CarFactory.constructors[prop];
+                }
+            }
+
+            return CarFactory;
+
+        }());
+
+        /*var audi = Carfactory('Audi');
+        console.log(audi.make);
+        audi.drive();*/
+
+        cars.forEach(function (c) {
+            var a = Carfactory(c);
+            console.log(a.make);
+            a.drive();
+        });
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>
