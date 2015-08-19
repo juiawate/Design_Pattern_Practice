@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+
+        function Product() {
+            var name = 'laptop';
+            this.getName = function () {
+                return name;
+            };
+
+            var specs = {height: 200, width: 100};
+            this.getSpecs = function () {
+                return specs;
+            };
+        }
+
+        var prod = new Product();
+        console.log(prod.name);
+
+        console.log(prod.getName());
+
+        //var specs = prod.getSpecs();
+        //console.log(prod.getSpecs());
+        //specs.height = 100;
+        console.log(prod.getSpecs());
+
+
+        var obj = (function() {
+            var name = 'laptop';
+            var specs = {height: 200, width: 100};
+            return {
+                    getName: function () {
+                        return name;
+                    },
+                    getSpecs: function () {
+                        return specs;
+                    }
+            };
+        })();
+
+        console.log(obj.name);
+
+        console.log(obj.getName());
+
+        //var specs = obj.getSpecs();
+        //console.log(obj.getSpecs());
+        //specs.height = 100;
+        console.log(obj.getSpecs());
+    </script>
+</head>
+<body>
+
+</body>
+</html>

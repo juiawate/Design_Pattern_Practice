@@ -4,11 +4,7 @@
     <meta charset="UTF-8">
     <title></title>
     <script>
-        // Simple publisher subscriber pattern
-        // Note: In an actual pub sub pattern, the publisher will have established events. The
-        //  subscribers cannot add custom events onto the publisher
-        // Strictly speaking the publishers cannot be aware of who the subscribers are and the
-        // subscribers should respond to the event only, independent of who the publisher is.
+
         function Publisher() {
             this.events = {};
         }

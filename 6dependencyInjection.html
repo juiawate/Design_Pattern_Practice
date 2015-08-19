@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        function DependencyInjection() {
+            this.dependencies = {};
+        }
+
+        DependencyInjection.prototype.register = function (name, obj) {
+            this.dependencies[name] = obj;
+        };
+
+        DependencyInjection.prototype.resolve = function () {
+            var self = this;
+            var args = Array.prototype.slice.call(arguments);
+            var fn = args.shift();
+            var parameters = getParams(fn);
+            //console.log(parameters);
+
+            var fn_args = parameters.map(function (param) {
+                //console.log(self.dependencies);
+                if(param in self.dependencies) return self.dependencies[param];
+                else return args.shift();
+            });
+            console.log(fn_args);
+
+            fn.apply(null, fn_args);
+        };
+
+        function getParams(fn) {
+            //console.log(fn);
+            var args = fn.toString().match(/^\s?function\s[^(]+\(([^)]+)/i)[1];
+            //console.log(args);
+            return args.match(/[^,]+/g);
+        }
+
+        function test(animal,b) {
+            console.log(animal);
+            console.log(b);
+        }
+
+        var di = new DependencyInjection();
+        di.register('animal', {type: 'Dog'});
+        console.log(di.dependencies);
+        di.resolve(test,5);
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

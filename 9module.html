@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var MYAPP = MYAPP || {};
+
+        MYAPP.namespace = function (nsStr) {
+            var parts = nsStr.split('.');
+            var parent = MYAPP;
+
+            if(parts[0] === 'MYAPP') parts = parts.slice(1);
+
+            for(var i = 0;i < parts.length; i++){
+                if(typeof parent[parts[i]] === 'undefined') parent[parts[i]] = {};
+                parent = parent[parts[i]];
+            }
+            return parent;
+        };
+
+        MYAPP.namespace('MYAPP.utilities.arrays');
+
+        MYAPP.utilities.arrays = (function () {
+            var o = MYAPP.utilities.object;
+            var s = '[object Array]';
+            var ops = Object.prototype.toString;
+
+            return {
+                isArray: function (a) {
+                    return ops.call(a) === s;
+                }        
+            };
+        }());
+
+        console.log(MYAPP);
+
+        var arr = [1,2];
+        console.log(MYAPP.utilities.arrays.isArray(arr));
+
+        var arr1 = 'str';
+        console.log(MYAPP.utilities.arrays.isArray(arr1));
+
+    </script>
+</head>
+<body>
+
+</body>
+</html>

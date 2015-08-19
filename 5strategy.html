@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+    <script>
+        var validator = {
+            types: {
+                isNonEmpty: {
+                    validate: function (value) {
+                        return value !== ''
+                    },
+                    message: 'the value cannot be null'
+                },
+                isNum: {
+                    validate: function (value) {
+                        return !isNaN(value);
+                    },
+                    message: 'the value can be a number only'
+                },
+                isAlphaNum: {
+                    validate: function (value) {
+                        return !/[^a-z0-9]/i.test(value);
+                    },
+                    message: 'the value can be alphanumeric only'
+                }
+            },
+            config: {
+                name: 'isNonEmpty',
+                age: 'isNum',
+                username: 'isAlphaNum'
+            },
+            messages: [],
+            validate: function (data) {
+                this.messages = [];
+
+                for(var prop in data){
+                    if(data.hasOwnProperty(prop)){
+                        var type = this.config[prop];
+                        var checker = this.types[type];
+                        if(!type) continue;
+                        if(!checker) {
+                            throw {
+                                name: 'Validation Error',
+                                message: 'No handler specified '
+                            };
+                        }
+                        var result = checker.validate(data[prop]);
+                        if(!result) {
+                            var msg = 'Invalid '+prop+' : '+checker.message;
+                            this.messages.push(msg);
+                        }
+                    }
+                }
+                return this.hasErrors();
+            },
+            hasErrors: function () {
+                return this.messages;
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', function () {
+            var form = document.forms.info;
+            form.validate.addEventListener('click', function () {
+                var errors = validator.validate({
+                    name: form.name.value,
+                    age: parseInt(form.age.value),
+                    username: form.username.value
+                });
+                if(errors){
+                    errors.forEach(function (e) {
+                        console.log('Error: ',e);
+                    });
+                }
+            });
+
+        });
+    </script>
+</head>
+<body>
+    <form name="info" id="info">
+        <input type="text" name="name" placeholder="name"/>
+        <input type="number" name="age" placeholder="age"/>
+        <input type="text" name="username" placeholder="username"/>
+        <input type="button" name="validate" value="Validate"/>
+    </form>
+
+</body>
+</html>
